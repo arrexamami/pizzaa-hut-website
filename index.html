@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pizzaa Hut — Hot. Fresh. Delicious.</title>
+<meta name="description" content="Pizzaa Hut — premium hand-crafted pizzas, baked fresh and delivered fast." />
+
+<!-- Tailwind (CDN, no build step) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0c0b0a',
+          panel: '#17130f',
+          panel2: '#1f1a15',
+          ember: '#d8262c',
+          ember2: '#a81b21',
+          gold: '#e8a13c',
+          gold2: '#f4c56a',
+          cream: '#f3ede4',
+          smoke: '#b7ada0'
+        },
+        fontFamily: {
+          sans: ['Manrope', 'sans-serif'],
+          display: ['Fraunces', 'serif']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { background:#0c0b0a; font-family:'Manrope', sans-serif; }
+  .script-text{ font-family:'Fraunces', serif; font-style:italic; font-weight:500; }
+
+  /* subtle char texture */
+  .char-bg{
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(216,38,44,0.10), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(232,161,60,0.08), transparent 40%);
+  }
+  .grain::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events:none;
+  }
+
+  .badge-ring{
+    background: conic-gradient(from 180deg, #f4c56a, #d8262c, #f4c56a);
+  }
+
+  .btn-primary{
+    background: linear-gradient(180deg,#e2312f,#b81c1f);
+    box-shadow: 0 8px 24px -8px rgba(216,38,44,0.55);
+  }
+  .btn-primary:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+  .btn-outline{ border:1.5px solid rgba(243,237,228,0.35); }
+  .btn-outline:hover{ background:rgba(243,237,228,0.08); }
+
+  .card-pizza{
+    background: linear-gradient(180deg,#1c1712,#141110);
+    border:1px solid rgba(243,237,228,0.07);
+  }
+  .card-pizza:hover{ transform:translateY(-6px); border-color:rgba(232,161,60,0.35); }
+
+  .cat-pill.active{
+    background: linear-gradient(180deg,#e2312f,#b81c1f);
+    color:#fff;
+    border-color: transparent;
+  }
+
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:#3a322a; border-radius:8px; }
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  #cart-drawer, #mobile-menu{ transition: transform .35s ease; }
+
+  .price-tag::before{ content:"₹"; opacity:.75; font-size:.85em; margin-right:1px; }
+
+  input:focus{ outline:none; }
+</style>
+</head>
+
+<body class="bg-ink text-cream antialiased char-bg">
+
+<!-- ================= TOP PROMO BANNER ================= -->
+<div class="bg-gradient-to-r from-[#b81c1f] via-[#d8262c] to-[#b81c1f] text-center text-xs sm:text-sm py-2 px-4 relative">
+  <span class="font-medium">For modern website design, <a href="#contact" class="text-gold2 font-bold underline underline-offset-2">Contact Us!</a></span>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header id="site-header" class="sticky top-0 z-40 bg-ink/90 backdrop-blur border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#home" class="flex items-center gap-3 shrink-0">
+      <div class="relative w-12 h-12 rounded-full bg-gradient-to-br from-gold2 to-ember flex items-center justify-center">
+        <i class="fa-solid fa-pizza-slice text-ink text-lg"></i>
+      </div>
+      <div class="leading-none">
+        <div class="font-display font-semibold text-xl sm:text-2xl tracking-tight text-cream">Pizzaa <span class="text-ember">Hut</span></div>
+        <div class="text-[10px] sm:text-[11px] tracking-[0.25em] text-gold2/80 mt-1">LOVE AT FIRST SLICE</div>
+      </div>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-smoke">
+      <a href="#home" class="text-cream hover:text-gold2 transition">Home</a>
+      <a href="#menu" class="hover:text-gold2 transition">Menu</a>
+      <a href="#deals" class="hover:text-gold2 transition">Deals</a>
+      <a href="#menu" class="hover:text-gold2 transition">Order Online</a>
+      <a href="#gallery" class="hover:text-gold2 transition">Gallery</a>
+      <a href="#about" class="hover:text-gold2 transition">About Us</a>
+      <a href="#contact" class="hover:text-gold2 transition">Contact Us</a>
+    </nav>
+
+    <!-- Right icons -->
+    <div class="flex items-center gap-4 sm:gap-5">
+      <button aria-label="Account" class="hidden sm:flex w-10 h-10 rounded-full border border-white/10 items-center justify-center hover:border-gold2/50 transition">
+        <i class="fa-regular fa-user text-cream"></i>
+      </button>
+
+      <button id="cart-btn" aria-label="Cart" class="relative w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-gold2/50 transition">
+        <i class="fa-solid fa-cart-shopping text-cream"></i>
+        <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-ember text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+      </button>
+
+      <a href="#menu" class="hidden sm:inline-flex btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full transition">Order Now</a>
+
+      <button id="hamburger" aria-label="Menu" class="lg:hidden w-10 h-10 flex items-center justify-center text-cream">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MOBILE MENU ================= -->
+<div id="mobile-menu" class="fixed inset-0 z-50 lg:hidden translate-x-full">
+  <div id="mobile-overlay" class="absolute inset-0 bg-black/70"></div>
+  <div class="absolute right-0 top-0 h-full w-[78%] max-w-sm bg-panel border-l border-white/10 p-6 flex flex-col gap-1">
+    <div class="flex items-center justify-between mb-6">
+      <span class="font-display text-xl text-cream">Menu</span>
+      <button id="close-mobile" class="w-9 h-9 flex items-center justify-center text-cream/80"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+    <a href="#home" class="mobile-link py-3 border-b border-white/5 text-cream">Home</a>
+    <a href="#menu" class="mobile-link py-3 border-b border-white/5 text-cream">Menu</a>
+    <a href="#deals" class="mobile-link py-3 border-b border-white/5 text-cream">Deals</a>
+    <a href="#menu" class="mobile-link py-3 border-b border-white/5 text-cream">Order Online</a>
+    <a href="#gallery" class="mobile-link py-3 border-b border-white/5 text-cream">Gallery</a>
+    <a href="#about" class="mobile-link py-3 border-b border-white/5 text-cream">About Us</a>
+    <a href="#contact" class="mobile-link py-3 border-b border-white/5 text-cream">Contact Us</a>
+    <a href="#menu" class="mobile-link btn-primary text-white text-center font-semibold px-5 py-3 rounded-full mt-5">Order Now</a>
+  </div>
+</div>
+
+<!-- ================= CART DRAWER ================= -->
+<div id="cart-drawer" class="fixed inset-0 z-50 translate-x-full">
+  <div id="cart-overlay" class="absolute inset-0 bg-black/70"></div>
+  <div class="absolute right-0 top-0 h-full w-[90%] max-w-md bg-panel border-l border-white/10 flex flex-col">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+      <span class="font-display text-xl text-cream">Your Cart</span>
+      <button id="close-cart" class="w-9 h-9 flex items-center justify-center text-cream/80"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+
+    <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 space-y-4"></div>
+
+    <div id="cart-empty" class="flex-1 hidden flex-col items-center justify-center text-center px-6 gap-3">
+      <i class="fa-solid fa-pizza-slice text-4xl text-smoke/40"></i>
+      <p class="text-smoke">Your cart is empty. Add a hot slice of happiness!</p>
+      <a href="#menu" id="cart-empty-cta" class="btn-outline rounded-full px-5 py-2 text-sm text-cream">Browse Menu</a>
+    </div>
+
+    <div id="cart-footer" class="border-t border-white/10 px-6 py-5 space-y-4">
+      <div class="flex items-center justify-between text-smoke text-sm">
+        <span>Subtotal</span>
+        <span id="cart-subtotal" class="price-tag text-cream font-semibold">0</span>
+      </div>
+      <div class="flex items-center justify-between text-smoke text-sm">
+        <span>Delivery</span>
+        <span id="cart-delivery" class="price-tag text-cream font-semibold">0</span>
+      </div>
+      <div class="flex items-center justify-between text-base font-bold border-t border-white/10 pt-3">
+        <span class="text-cream">Total</span>
+        <span id="cart-total" class="price-tag text-gold2">0</span>
+      </div>
+      <button id="checkout-btn" class="w-full btn-primary text-white font-semibold py-3.5 rounded-full">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section id="home" class="relative overflow-hidden pt-12 sm:pt-16 pb-16">
+  <div class="absolute -top-24 -right-24 w-96 h-96 bg-ember/20 blur-[120px] rounded-full"></div>
+  <div class="absolute top-40 -left-24 w-72 h-72 bg-gold/10 blur-[100px] rounded-full"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center relative">
+    <div class="reveal">
+      <p class="script-text text-gold2 text-2xl sm:text-3xl mb-2">Hot. Fresh. Delicious.</p>
+      <h1 class="font-display font-semibold leading-[0.95] text-5xl sm:text-6xl md:text-7xl">
+        <span class="block text-cream">Pizza</span>
+        <span class="block text-ember">Made for You!</span>
+      </h1>
+      <p class="mt-6 text-smoke text-base sm:text-lg max-w-md leading-relaxed">
+        Experience the perfect blend of flavors with our freshly baked pizzas —
+        stone-fired, generously topped, and out the door in minutes.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a href="#menu" class="btn-primary text-white font-semibold px-7 py-3.5 rounded-full text-sm">Order Now</a>
+        <a href="#menu" class="btn-outline text-cream font-semibold px-7 py-3.5 rounded-full text-sm inline-flex items-center gap-2">
+          View Menu <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+
+      <div class="mt-10 flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-panel2 border border-white/10 flex items-center justify-center text-gold2">
+          <i class="fa-solid fa-motorcycle"></i>
+        </div>
+        <div class="leading-tight">
+          <p class="text-cream font-semibold text-sm">Fast Delivery</p>
+          <p class="text-smoke text-xs">30 minutes or free*</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative reveal">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-[85%] aspect-square rounded-full bg-gradient-to-br from-ember/25 to-gold/10 blur-2xl"></div>
+      </div>
+      <img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65?auto=format&fit=crop&w=900&q=80"
+           alt="Loaded pepperoni pizza"
+           class="relative w-full max-w-lg mx-auto rounded-full object-cover aspect-square shadow-2xl ring-4 ring-white/5" />
+
+      <div class="absolute -top-4 right-2 sm:right-10 w-24 h-24 sm:w-28 sm:h-28 rounded-full badge-ring p-[3px] shadow-xl">
+        <div class="w-full h-full rounded-full bg-ink flex flex-col items-center justify-center text-center">
+          <span class="text-gold2 font-display font-semibold text-xl sm:text-2xl leading-none">50%</span>
+          <span class="text-[9px] sm:text-[10px] tracking-widest text-smoke mt-1">UP TO / OFF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES STRIP ================= -->
+<section class="border-y border-white/5 bg-panel/60">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div class="reveal flex flex-col items-center text-center gap-2">
+      <i class="fa-solid fa-leaf text-ember text-xl"></i>
+      <p class="text-sm font-semibold text-cream">Fresh Ingredients</p>
+      <p class="text-xs text-smoke">100% natural &amp; always fresh</p>
+    </div>
+    <div class="reveal flex flex-col items-center text-center gap-2">
+      <i class="fa-solid fa-fire-burner text-ember text-xl"></i>
+      <p class="text-sm font-semibold text-cream">Oven Baked</p>
+      <p class="text-xs text-smoke">Perfectly baked to perfection</p>
+    </div>
+    <div class="reveal flex flex-col items-center text-center gap-2">
+      <i class="fa-solid fa-motorcycle text-ember text-xl"></i>
+      <p class="text-sm font-semibold text-cream">Fast Delivery</p>
+      <p class="text-xs text-smoke">At your doorstep in 30 minutes</p>
+    </div>
+    <div class="reveal flex flex-col items-center text-center gap-2">
+      <i class="fa-solid fa-medal text-ember text-xl"></i>
+      <p class="text-sm font-semibold text-cream">Best Quality</p>
+      <p class="text-xs text-smoke">Premium quality every time</p>
+    </div>
+    <div class="reveal flex flex-col items-center text-center gap-2 col-span-2 sm:col-span-1">
+      <i class="fa-solid fa-lock text-ember text-xl"></i>
+      <p class="text-sm font-semibold text-cream">Secure Payment</p>
+      <p class="text-xs text-smoke">100% safe &amp; secure</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POPULAR PIZZAS ================= -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <div class="flex items-end justify-between mb-10 reveal">
+    <div>
+      <p class="script-text text-gold2 text-lg mb-1">Fan favorites</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-cream">Popular Pizzas</h2>
+    </div>
+    <a href="#menu" class="hidden sm:inline-flex items-center gap-2 text-sm text-gold2 hover:text-gold font-medium">View All Pizzas <i class="fa-solid fa-arrow-right text-xs"></i></a>
+  </div>
+
+  <div id="popular-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- ================= SUPER SAVER DEALS ================= -->
+<section id="deals" class="relative py-20 border-y border-white/5 bg-panel/60">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-10 reveal">
+      <div>
+        <h2 class="font-display font-semibold text-3xl sm:text-4xl text-cream">Super Saver <span class="text-ember">Deals!</span></h2>
+        <p class="text-smoke mt-2 max-w-md">Enjoy our exclusive combos and save more on every order.</p>
+      </div>
+      <a href="#menu" class="hidden sm:inline-flex items-center gap-2 text-sm text-gold2 hover:text-gold font-medium">View All Deals <i class="fa-solid fa-arrow-right text-xs"></i></a>
+    </div>
+
+    <div id="deals-grid" class="grid md:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- ================= EXPLORE MENU ================= -->
+<section id="menu" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <div class="flex items-end justify-between mb-8 reveal">
+    <div>
+      <p class="script-text text-gold2 text-lg mb-1">Something for everyone</p>
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-cream">Explore Our Menu</h2>
+    </div>
+  </div>
+
+  <div id="category-pills" class="flex gap-3 overflow-x-auto pb-2 mb-10 reveal"></div>
+
+  <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- ================= ABOUT + WHY CHOOSE US ================= -->
+<section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-14 items-center">
+  <div id="gallery" class="relative reveal">
+    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=900&q=80"
+         alt="Warm restaurant interior" class="rounded-3xl w-full object-cover aspect-[4/5] shadow-2xl" />
+    <div class="absolute -bottom-6 -right-4 sm:right-6 bg-panel border border-white/10 rounded-2xl px-6 py-4 shadow-xl">
+      <p class="text-gold2 font-display text-2xl font-semibold leading-none">10k+</p>
+      <p class="text-xs text-smoke mt-1">Happy customers</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <p class="script-text text-gold2 text-lg mb-2">Our story</p>
+    <h2 class="font-display font-semibold text-3xl sm:text-4xl leading-tight text-cream mb-6">
+      Made with Passion,<br class="hidden sm:block" /> Served with <span class="text-ember">Love.</span>
+    </h2>
+    <p class="text-smoke leading-relaxed mb-4">
+      At Pizzaa Hut, we believe serving happiness comes one slice at a time. What started as a single
+      wood-fired oven has grown into a neighborhood favorite, but our kitchen still runs on the same
+      idea: real dough, real cheese, and toppings that taste like someone actually cared.
+    </p>
+    <p class="text-smoke leading-relaxed mb-8">
+      From our kitchen to your doorstep, we make sure every pizza is stretched, topped, and baked fresh
+      the moment you order — never sitting, never reheated.
+    </p>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <p class="font-display text-3xl text-gold2 font-semibold">12</p>
+        <p class="text-xs text-smoke mt-1">Years of craft</p>
+      </div>
+      <div>
+        <p class="font-display text-3xl text-gold2 font-semibold">40+</p>
+        <p class="text-xs text-smoke mt-1">Signature recipes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-panel/60 border-y border-white/5 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-xl mx-auto mb-12 reveal">
+      <h2 class="font-display font-semibold text-3xl sm:text-4xl text-cream">Why Choose <span class="text-ember">Us?</span></h2>
+      <p class="text-smoke mt-3">Everything we do is built around one goal — a great slice, every single time.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="reveal card-pizza rounded-2xl p-7 text-center transition">
+        <div class="w-14 h-14 mx-auto rounded-full border border-ember/40 flex items-center justify-center text-ember mb-4">
+          <i class="fa-solid fa-shield-heart text-lg"></i>
+        </div>
+        <p class="font-semibold text-cream mb-1">Hygienic &amp; Safe</p>
+        <p class="text-xs text-smoke leading-relaxed">We follow top quality hygiene standards in every kitchen.</p>
+      </div>
+      <div class="reveal card-pizza rounded-2xl p-7 text-center transition">
+        <div class="w-14 h-14 mx-auto rounded-full border border-ember/40 flex items-center justify-center text-ember mb-4">
+          <i class="fa-solid fa-fire text-lg"></i>
+        </div>
+        <p class="font-semibold text-cream mb-1">Fresh &amp; Hot</p>
+        <p class="text-xs text-smoke leading-relaxed">Your pizza is freshly made and served piping hot.</p>
+      </div>
+      <div class="reveal card-pizza rounded-2xl p-7 text-center transition">
+        <div class="w-14 h-14 mx-auto rounded-full border border-ember/40 flex items-center justify-center text-ember mb-4">
+          <i class="fa-solid fa-tags text-lg"></i>
+        </div>
+        <p class="font-semibold text-cream mb-1">Value for Money</p>
+        <p class="text-xs text-smoke leading-relaxed">Great taste at prices that respect your wallet.</p>
+      </div>
+      <div class="reveal card-pizza rounded-2xl p-7 text-center transition">
+        <div class="w-14 h-14 mx-auto rounded-full border border-ember/40 flex items-center justify-center text-ember mb-4">
+          <i class="fa-solid fa-heart text-lg"></i>
+        </div>
+        <p class="font-semibold text-cream mb-1">Loved by Thousands</p>
+        <p class="text-xs text-smoke leading-relaxed">Trusted by 10,000+ happy customers and counting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEWSLETTER ================= -->
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+  <div class="reveal card-pizza rounded-3xl px-6 sm:px-14 py-14">
+    <h2 class="font-display font-semibold text-2xl sm:text-3xl text-cream mb-2">Stay <span class="text-ember">Updated!</span></h2>
+    <p class="text-smoke max-w-md mx-auto mb-8">Subscribe to our newsletter and get exclusive offers &amp; updates straight to your inbox.</p>
+
+    <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input id="newsletter-email" type="email" required placeholder="Enter your email address"
+             class="flex-1 bg-ink border border-white/10 rounded-full px-5 py-3.5 text-sm text-cream placeholder:text-smoke/60" />
+      <button type="submit" class="btn-primary text-white font-semibold px-7 py-3.5 rounded-full text-sm whitespace-nowrap">Subscribe</button>
+    </form>
+    <p id="newsletter-msg" class="text-sm mt-4 h-4"></p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact" class="bg-panel border-t border-white/5 pt-16 pb-8 relative grain">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-10 relative">
+
+    <div class="lg:col-span-2">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-gold2 to-ember flex items-center justify-center">
+          <i class="fa-solid fa-pizza-slice text-ink"></i>
+        </div>
+        <div class="leading-none">
+          <div class="font-display font-semibold text-lg text-cream">Pizzaa <span class="text-ember">Hut</span></div>
+          <div class="text-[10px] tracking-[0.2em] text-gold2/80 mt-1">LOVE AT FIRST SLICE</div>
+        </div>
+      </div>
+      <p class="text-sm text-smoke leading-relaxed max-w-xs mb-5">© 2024 Pizza Hut. All rights reserved. Baking happiness since day one, one fresh pizza at a time.</p>
+      <div class="flex items-center gap-3">
+        <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-gold2/50 hover:text-gold2 transition text-smoke"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+        <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-gold2/50 hover:text-gold2 transition text-smoke"><i class="fa-brands fa-instagram text-sm"></i></a>
+        <a href="#" aria-label="Twitter" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-gold2/50 hover:text-gold2 transition text-smoke"><i class="fa-brands fa-twitter text-sm"></i></a>
+        <a href="#" aria-label="YouTube" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-gold2/50 hover:text-gold2 transition text-smoke"><i class="fa-brands fa-youtube text-sm"></i></a>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-cream font-semibold mb-4 text-sm tracking-wide">Quick Links</p>
+      <ul class="space-y-3 text-sm text-smoke">
+        <li><a href="#home" class="hover:text-gold2 transition">Home</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Menu</a></li>
+        <li><a href="#deals" class="hover:text-gold2 transition">Deals</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Order Online</a></li>
+        <li><a href="#about" class="hover:text-gold2 transition">About Us</a></li>
+        <li><a href="#contact" class="hover:text-gold2 transition">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-cream font-semibold mb-4 text-sm tracking-wide">Our Menu</p>
+      <ul class="space-y-3 text-sm text-smoke">
+        <li><a href="#menu" class="hover:text-gold2 transition">Pizza</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Garlic Bread</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Pasta</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Sides</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Beverages</a></li>
+        <li><a href="#menu" class="hover:text-gold2 transition">Desserts</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-cream font-semibold mb-4 text-sm tracking-wide">Customer Service</p>
+      <ul class="space-y-3 text-sm text-smoke mb-6">
+        <li><a href="#" class="hover:text-gold2 transition">Track Your Order</a></li>
+        <li><a href="#" class="hover:text-gold2 transition">FAQs</a></li>
+        <li><a href="#" class="hover:text-gold2 transition">Shipping &amp; Delivery</a></li>
+        <li><a href="#" class="hover:text-gold2 transition">Refund &amp; Returns</a></li>
+        <li><a href="#" class="hover:text-gold2 transition">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-gold2 transition">Terms &amp; Conditions</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 relative">
+    <div class="text-sm text-smoke text-center md:text-left">
+      <p class="text-cream font-semibold mb-1"><i class="fa-solid fa-location-dot text-ember mr-1"></i> 123, Pizza Street, Your City - 400001</p>
+      <p>Monday - Sunday: 10:00 AM – 11:00 PM</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-smoke mr-1">We accept</span>
+      <i class="fa-brands fa-cc-visa text-2xl text-smoke"></i>
+      <i class="fa-brands fa-cc-mastercard text-2xl text-smoke"></i>
+      <i class="fa-brands fa-cc-paypal text-2xl text-smoke"></i>
+      <i class="fa-solid fa-indian-rupee-sign text-xl text-smoke border border-white/10 rounded px-1.5 py-1"></i>
+    </div>
+  </div>
+  <p class="text-center text-xs text-smoke/60 mt-8">© 2024 Pizzaa Hut. All rights reserved.</p>
+</footer>
+
+<!-- toast -->
+<div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-[60] bg-cream text-ink text-sm font-semibold px-5 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none translate-y-4 transition-all duration-300">
+  Added to cart
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---------------------------------------------------
+     PRODUCT DATA
+  --------------------------------------------------- */
+  const PRODUCTS = [
+    { id:'p1', name:'Veg Supreme', category:'Pizza', price:299, desc:'Loaded with fresh veggies, olives & cheesy goodness.', badge:'Best Seller', img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80', popular:true },
+    { id:'p2', name:'Margherita', category:'Pizza', price:249, desc:'Classic delight with 100% real mozzarella cheese.', badge:'Veg', img:'https://images.unsplash.com/photo-1548369937-47519962c11a?auto=format&fit=crop&w=700&q=80', popular:true },
+    { id:'p3', name:'Pepperoni', category:'Pizza', price:349, desc:'Classic pepperoni with mozzarella & herbs.', badge:'Spicy', img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=700&q=80', popular:true },
+    { id:'p4', name:'Chicken Tikka', category:'Pizza', price:399, desc:'Flavorful chicken tikka with onion & capsicum.', badge:'New', img:'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=700&q=80', popular:true },
+    { id:'p5', name:'Cheese Burst', category:'Pizza', price:379, desc:'Extra cheese for cheese lovers!', badge:'', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=700&q=80', popular:true },
+    { id:'p6', name:'BBQ Chicken', category:'Pizza', price:399, desc:'Grilled chicken with BBQ sauce & onions.', badge:'', img:'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=700&q=80', popular:true },
+
+    { id:'p7', name:'Garlic Cheese Bread', category:'Garlic Bread', price:149, desc:'Warm baked bread loaded with garlic butter & cheese.', badge:'', img:'https://images.unsplash.com/photo-1573140401552-3fab0b24427f?auto=format&fit=crop&w=700&q=80', popular:false },
+    { id:'p8', name:'Stuffed Garlic Bread', category:'Garlic Bread', price:179, desc:'Soft bread stuffed with a cheesy garlic filling.', badge:'', img:'https://images.unsplash.com/photo-1619535860434-ba1d8fa72c50?auto=format&fit=crop&w=700&q=80', popular:false },
+
+    { id:'p9', name:'White Sauce Pasta', category:'Pasta', price:229, desc:'Creamy white sauce pasta with herbs & veggies.', badge:'', img:'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=700&q=80', popular:false },
+    { id:'p10', name:'Arrabbiata Pasta', category:'Pasta', price:219, desc:'Spicy red sauce pasta tossed with fresh basil.', badge:'', img:'https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?auto=format&fit=crop&w=700&q=80', popular:false },
+
+    { id:'p11', name:'Cheesy Fries', category:'Sides', price:129, desc:'Golden fries topped with melted cheese sauce.', badge:'', img:'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=700&q=80', popular:false },
+    { id:'p12', name:'Chicken Wings', category:'Sides', price:249, desc:'Crispy fried wings tossed in a smoky glaze.', badge:'', img:'https://images.unsplash.com/photo-1608039755401-742074f0548d?auto=format&fit=crop&w=700&q=80', popular:false },
+
+    { id:'p13', name:'Classic Cola', category:'Beverages', price:69, desc:'Chilled fizzy cola, the perfect pizza partner.', badge:'', img:'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=700&q=80', popular:false },
+    { id:'p14', name:'Fresh Lemonade', category:'Beverages', price:79, desc:'Refreshing homemade lemonade with mint.', badge:'', img:'https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=700&q=80', popular:false },
+
+    { id:'p15', name:'Chocolate Lava Cake', category:'Desserts', price:139, desc:'Warm molten chocolate cake with a gooey center.', badge:'', img:'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=700&q=80', popular:false },
+    { id:'p16', name:'Tiramisu Cup', category:'Desserts', price:159, desc:'Classic Italian layered coffee dessert.', badge:'', img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=700&q=80', popular:false },
+  ];
+
+  const DEALS = [
+    { id:'d1', name:'Pizza + Drink', desc:'Any medium pizza paired with a chilled soft drink.', price:249, img:'https://images.unsplash.com/photo-1571066811602-716837d681de?auto=format&fit=crop&w=700&q=80' },
+    { id:'d2', name:'Pizza + Garlic Bread', desc:'Any medium pizza with a side of cheesy garlic bread.', price:299, img:'https://images.unsplash.com/photo-1619531038896-2c1e0827f954?auto=format&fit=crop&w=700&q=80' },
+    { id:'d3', name:'Pizza + Fries + Drink', desc:'The full feast — pizza, crispy fries & a chilled drink.', price:349, img:'https://images.unsplash.com/photo-1594179047519-f347310d3322?auto=format&fit=crop&w=700&q=80' },
+  ];
+
+  const CATEGORIES = ['All','Pizza','Garlic Bread','Pasta','Sides','Beverages','Desserts'];
+  const DELIVERY_FEE = 40;
+
+  /* ---------------------------------------------------
+     STATE
+  --------------------------------------------------- */
+  let cart = {};          // { productId: qty }
+  let activeCategory = 'All';
+
+  const fmt = n => n.toLocaleString('en-IN');
+
+  /* ---------------------------------------------------
+     RENDER: PRODUCT CARD
+  --------------------------------------------------- */
+  const productCard = (p) => `
+    <div class="reveal in card-pizza rounded-2xl overflow-hidden transition">
+      <div class="relative aspect-[4/3] overflow-hidden">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"
+             class="w-full h-full object-cover hover:scale-110 transition duration-500" />
+        ${p.badge ? `<span class="absolute top-3 left-3 bg-ember text-white text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full">${p.badge}</span>` : ''}
+      </div>
+      <div class="p-5">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <h3 class="font-semibold text-cream text-lg">${p.name}</h3>
+          <span class="price-tag text-gold2 font-bold whitespace-nowrap">${fmt(p.price)}</span>
+        </div>
+        <p class="text-xs text-smoke leading-relaxed mb-4">${p.desc}</p>
+        <div class="flex items-center gap-3">
+          <button data-add="${p.id}" class="flex-1 btn-outline text-cream text-xs font-semibold py-2.5 rounded-full">Add to Cart</button>
+          <button data-order="${p.id}" class="flex-1 btn-primary text-white text-xs font-semibold py-2.5 rounded-full">Order Now</button>
+        </div>
+      </div>
+    </div>`;
+
+  const dealCard = (d) => `
+    <div class="reveal in card-pizza rounded-2xl overflow-hidden flex flex-col sm:flex-row transition">
+      <img src="${d.img}" alt="${d.name}" loading="lazy" class="w-full sm:w-40 h-44 sm:h-auto object-cover" />
+      <div class="p-5 flex flex-col justify-center flex-1">
+        <h3 class="font-semibold text-cream text-base mb-1">${d.name}</h3>
+        <p class="text-xs text-smoke leading-relaxed mb-3">${d.desc}</p>
+        <div class="flex items-center justify-between">
+          <div class="leading-tight">
+            <p class="text-[10px] text-smoke uppercase tracking-wide">Starting from</p>
+            <p class="price-tag text-gold2 font-bold text-lg">${fmt(d.price)}</p>
+          </div>
+          <button data-deal="${d.id}" class="btn-primary text-white text-xs font-semibold px-4 py-2.5 rounded-full">Order</button>
+        </div>
+      </div>
+    </div>`;
+
+  /* ---------------------------------------------------
+     RENDER: SECTIONS
+  --------------------------------------------------- */
+  function renderPopular(){
+    const grid = document.getElementById('popular-grid');
+    grid.innerHTML = PRODUCTS.filter(p => p.popular).map(productCard).join('');
+  }
+
+  function renderDeals(){
+    document.getElementById('deals-grid').innerHTML = DEALS.map(dealCard).join('');
+  }
+
+  function renderCategoryPills(){
+    const wrap = document.getElementById('category-pills');
+    wrap.innerHTML = CATEGORIES.map(c => `
+      <button data-cat="${c}" class="cat-pill shrink-0 px-5 py-2.5 rounded-full text-sm font-medium border border-white/10 text-smoke transition ${c === activeCategory ? 'active' : ''}">${c}</button>
+    `).join('');
+  }
+
+  function renderMenuGrid(){
+    const grid = document.getElementById('menu-grid');
+    const list = activeCategory === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.category === activeCategory);
+    grid.innerHTML = list.map(productCard).join('') || `<p class="text-smoke col-span-full text-center py-10">No items in this category yet.</p>`;
+  }
+
+  /* ---------------------------------------------------
+     CART LOGIC
+  --------------------------------------------------- */
+  function addToCart(id, qty = 1){
+    cart[id] = (cart[id] || 0) + qty;
+    renderCart();
+    showToast(`${findProduct(id)?.name || 'Item'} added to cart`);
+  }
+
+  function decFromCart(id){
+    if (!cart[id]) return;
+    cart[id] -= 1;
+    if (cart[id] <= 0) delete cart[id];
+    renderCart();
+  }
+
+  function removeFromCart(id){
+    delete cart[id];
+    renderCart();
+  }
+
+  function findProduct(id){
+    return PRODUCTS.find(p => p.id === id) || DEALS.find(d => d.id === id);
+  }
+
+  function cartCount(){
+    return Object.values(cart).reduce((a,b) => a+b, 0);
+  }
+
+  function cartSubtotal(){
+    return Object.entries(cart).reduce((sum, [id, qty]) => {
+      const p = findProduct(id);
+      return sum + (p ? p.price * qty : 0);
+    }, 0);
+  }
+
+  function renderCart(){
+    const count = cartCount();
+    document.getElementById('cart-count').textContent = count;
+
+    const itemsWrap = document.getElementById('cart-items');
+    const emptyWrap = document.getElementById('cart-empty');
+    const footer = document.getElementById('cart-footer');
+
+    if (count === 0){
+      itemsWrap.classList.add('hidden');
+      footer.classList.add('hidden');
+      emptyWrap.classList.remove('hidden');
+      emptyWrap.classList.add('flex');
+      return;
+    }
+
+    itemsWrap.classList.remove('hidden');
+    footer.classList.remove('hidden');
+    emptyWrap.classList.add('hidden');
+    emptyWrap.classList.remove('flex');
+
+    itemsWrap.innerHTML = Object.entries(cart).map(([id, qty]) => {
+      const p = findProduct(id);
+      if (!p) return '';
+      return `
+        <div class="flex items-center gap-3 border-b border-white/5 pb-4">
+          <img src="${p.img}" alt="${p.name}" class="w-16 h-16 rounded-xl object-cover" />
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-cream truncate">${p.name}</p>
+            <p class="price-tag text-xs text-gold2 font-semibold mt-0.5">${fmt(p.price)}</p>
+            <div class="flex items-center gap-2 mt-2">
+              <button data-dec="${id}" class="w-7 h-7 rounded-full border border-white/15 text-cream text-xs flex items-center justify-center">−</button>
+              <span class="text-sm text-cream w-5 text-center">${qty}</span>
+              <button data-inc="${id}" class="w-7 h-7 rounded-full border border-white/15 text-cream text-xs flex items-center justify-center">+</button>
+            </div>
+          </div>
+          <button data-remove="${id}" class="text-smoke hover:text-ember transition"><i class="fa-solid fa-trash-can text-sm"></i></button>
+        </div>`;
+    }).join('');
+
+    const subtotal = cartSubtotal();
+    const delivery = subtotal > 0 ? DELIVERY_FEE : 0;
+    document.getElementById('cart-subtotal').textContent = fmt(subtotal);
+    document.getElementById('cart-delivery').textContent = fmt(delivery);
+    document.getElementById('cart-total').textContent = fmt(subtotal + delivery);
+  }
+
+  /* ---------------------------------------------------
+     TOAST
+  --------------------------------------------------- */
+  let toastTimer;
+  function showToast(msg){
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.remove('opacity-0','translate-y-4');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.add('opacity-0','translate-y-4');
+    }, 2200);
+  }
+
+  /* ---------------------------------------------------
+     DRAWERS
+  --------------------------------------------------- */
+  const cartDrawer = document.getElementById('cart-drawer');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function openCart(){ cartDrawer.classList.remove('translate-x-full'); document.body.classList.add('overflow-hidden'); }
+  function closeCart(){ cartDrawer.classList.add('translate-x-full'); document.body.classList.remove('overflow-hidden'); }
+  function openMobile(){ mobileMenu.classList.remove('translate-x-full'); document.body.classList.add('overflow-hidden'); }
+  function closeMobile(){ mobileMenu.classList.add('translate-x-full'); document.body.classList.remove('overflow-hidden'); }
+
+  document.getElementById('cart-btn').addEventListener('click', openCart);
+  document.getElementById('close-cart').addEventListener('click', closeCart);
+  document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+  document.getElementById('hamburger').addEventListener('click', openMobile);
+  document.getElementById('close-mobile').addEventListener('click', closeMobile);
+  document.getElementById('mobile-overlay').addEventListener('click', closeMobile);
+  document.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', closeMobile));
+
+  /* ---------------------------------------------------
+     EVENT DELEGATION (add/remove/inc/dec/order/deal/category)
+  --------------------------------------------------- */
+  document.addEventListener('click', (e) => {
+    const addBtn = e.target.closest('[data-add]');
+    if (addBtn){ addToCart(addBtn.dataset.add); return; }
+
+    const orderBtn = e.target.closest('[data-order]');
+    if (orderBtn){ addToCart(orderBtn.dataset.order); openCart(); return; }
+
+    const dealBtn = e.target.closest('[data-deal]');
+    if (dealBtn){ addToCart(dealBtn.dataset.deal); openCart(); return; }
+
+    const incBtn = e.target.closest('[data-inc]');
+    if (incBtn){ addToCart(incBtn.dataset.inc); return; }
+
+    const decBtn = e.target.closest('[data-dec]');
+    if (decBtn){ decFromCart(decBtn.dataset.dec); return; }
+
+    const removeBtn = e.target.closest('[data-remove]');
+    if (removeBtn){ removeFromCart(removeBtn.dataset.remove); return; }
+
+    const catBtn = e.target.closest('[data-cat]');
+    if (catBtn){
+      activeCategory = catBtn.dataset.cat;
+      renderCategoryPills();
+      renderMenuGrid();
+      return;
+    }
+  });
+
+  document.getElementById('checkout-btn').addEventListener('click', () => {
+    if (cartCount() === 0) return;
+    showToast('Order placed! Thank you for choosing Pizzaa Hut 🍕');
+    cart = {};
+    renderCart();
+    setTimeout(closeCart, 900);
+  });
+
+  /* ---------------------------------------------------
+     NEWSLETTER
+  --------------------------------------------------- */
+  document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('newsletter-email');
+    const msg = document.getElementById('newsletter-msg');
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRe.test(input.value.trim())){
+      msg.textContent = 'Please enter a valid email address.';
+      msg.className = 'text-sm mt-4 h-4 text-ember';
+      return;
+    }
+    msg.textContent = `Thanks! We'll send updates to ${input.value.trim()}.`;
+    msg.className = 'text-sm mt-4 h-4 text-gold2';
+    input.value = '';
+  });
+
+  /* ---------------------------------------------------
+     SCROLL REVEAL
+  --------------------------------------------------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  function observeReveals(){
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+  }
+
+  /* ---------------------------------------------------
+     HEADER SHADOW ON SCROLL
+  --------------------------------------------------- */
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) header.classList.add('shadow-lg','shadow-black/30');
+    else header.classList.remove('shadow-lg','shadow-black/30');
+  });
+
+  /* ---------------------------------------------------
+     INIT
+  --------------------------------------------------- */
+  renderPopular();
+  renderDeals();
+  renderCategoryPills();
+  renderMenuGrid();
+  renderCart();
+  observeReveals();
+})();
+</script>
+
+</body>
+</html>
